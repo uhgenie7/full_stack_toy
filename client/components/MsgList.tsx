@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import MsgInput from "./MsgInput";
 
 import MsgItem from "./MsgItem";
 
@@ -20,12 +21,10 @@ interface Message {
 
 const MsgList = () => {
   const UserIds = ["roy", "jay"];
-
   const [msgs, setMsgs] = useState<Message[]>([]);
+  const getRandomUserId = (): string => UserIds[Math.round(Math.random())];
 
   useEffect(() => {
-    const getRandomUserId = (): string => UserIds[Math.round(Math.random())];
-
     const settingMsg = Array(50)
       .fill(0)
       .map((_, i) => ({
@@ -38,12 +37,25 @@ const MsgList = () => {
     setMsgs(settingMsg);
   }, []);
 
+  const onCreate = (text) => {
+    const newMsg = {
+      id: msgs.length,
+      userId: getRandomUserId(),
+      timestamp: Date.now(),
+      text: `${msgs.length} ${text}`,
+    };
+    msgs.unshift(newMsg);
+  };
+
   return (
-    <ul className="messages">
-      {msgs.map((x) => (
-        <MsgItem key={x.id} {...x} />
-      ))}
-    </ul>
+    <>
+      <MsgInput mutate={onCreate} />
+      <ul className="messages">
+        {msgs.map((x) => (
+          <MsgItem key={x.id} {...x} />
+        ))}
+      </ul>
+    </>
   );
 };
 
