@@ -39,12 +39,12 @@ const MsgList = () => {
 
   const onCreate = (text) => {
     const newMsg = {
-      id: msgs.length,
+      id: msgs.length + 1,
       userId: getRandomUserId(),
       timestamp: Date.now(),
-      text: `${msgs.length} ${text}`,
+      text: `${msgs.length + 1} ${text}`,
     };
-    msgs.unshift(newMsg);
+    setMsgs((msgs) => [newMsg, ...msgs]);
   };
 
   return (
