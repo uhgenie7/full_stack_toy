@@ -64,6 +64,17 @@ const MsgList = () => {
 
   const doneEdit = () => setEditingId(null);
 
+  const onDelete = (id) => {
+    setMsgs((msgs) => {
+      const targetIndex = msgs.findIndex((msg) => msg.id === id);
+      if (targetIndex < 0) return msgs;
+      const newMsgs = [...msgs];
+      newMsgs.splice(targetIndex, 1);
+      return newMsgs;
+    });
+    doneEdit();
+  };
+
   return (
     <>
       <MsgInput mutate={onCreate} />
@@ -74,6 +85,7 @@ const MsgList = () => {
             onUpdate={onUpdate}
             startEdit={() => setEditingId(x.id)}
             isEditing={editingId === x.id}
+            onDelete={() => onDelete(x.id)}
             {...x}
           />
         ))}
