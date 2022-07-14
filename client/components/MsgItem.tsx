@@ -27,7 +27,7 @@ const MsgItem = ({
     </h3>
     {isEditing ? (
       <>
-        <MsgInput mutate={onUpdate} id={id} />
+        <MsgInput mutate={onUpdate} id={id} text={text} />
       </>
     ) : (
       text
