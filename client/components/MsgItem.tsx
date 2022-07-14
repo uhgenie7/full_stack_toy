@@ -1,3 +1,5 @@
+import React from "react";
+
 const MsgItem = ({ userId, timestamp, text }) => (
   <ul className="messages__item">
     <h3>
