@@ -1,6 +1,6 @@
 import { useRef } from "react";
 
-const MsgInput = (mutate) => {
+const MsgInput = ({ mutate }) => {
   const textRef = useRef(null);
 
   const onSubmit = (e) => {
