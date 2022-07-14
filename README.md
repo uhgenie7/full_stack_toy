@@ -10,7 +10,6 @@
 - [ ] 섹션 3. Client - REST API 통신
 - [ ] 섹션 4. Server - GraphQL
 - [ ] 섹션 5. Client - GraphQL 통신
-- [ ] 섹션 5. Client - GraphQL 통신
 - [ ] 섹션 6. Client - GraphQL 무한스크롤
 - [ ] 섹션 7. 기타 library 소개
 - [ ] 섹션 8. TS 적용기
