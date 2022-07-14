@@ -5,7 +5,7 @@
 
 # 목차
 
-- [ ] 섹션 1. Client - 기본기능 구현
+- [x] 섹션 1. Client - 기본기능 구현
 - [ ] 섹션 2. Server - REST API
 - [ ] 섹션 3. Client - REST API 통신
 - [ ] 섹션 4. Server - GraphQL
