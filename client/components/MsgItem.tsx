@@ -5,7 +5,7 @@ const MsgItem = ({
   id,
   userId,
   timestamp,
-  text,
+  text, // 여기까지 기존 객체
   onUpdate,
   isEditing,
   startEdit,
