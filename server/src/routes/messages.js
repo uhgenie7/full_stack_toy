@@ -1,6 +1,7 @@
 import { readDB, writeDB } from "../dbController.js";
 import { v4 } from "uuid";
 const getMsgs = readDB("messages");
+const setMsgs = (data) => writeDB("messages", data);
 
 const messagesRoute = [
   {
@@ -25,7 +26,7 @@ const messagesRoute = [
         timestamp: Date.now(),
       };
       msgs.unshift(newMsg);
-      writeDB("messages", msgs);
+      setMsgs(msgs);
       res.send();
     },
   },
