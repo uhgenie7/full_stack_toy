@@ -12,21 +12,21 @@ app.use(
   })
 );
 
-app.get("/", (req, res) => {
-  res.send("ok");
-});
+// app.get("/", (req, res) => {
+//   res.send("ok");
+// });
 
-app.post("/messages", (req, res) => {
-  // ...
-});
+// app.post("/messages", (req, res) => {
+//   // ...
+// });
 
-app.put("/messages/:id", (req, res) => {
-  // ...
-});
+// app.put("/messages/:id", (req, res) => {
+//   // ...
+// });
 
-app.delete("/messages/:id", (req, res) => {
-  // ...
-});
+// app.delete("/messages/:id", (req, res) => {
+//   // ...
+// });
 
 app.listen(8000, () => {
   console.log("server listen");
