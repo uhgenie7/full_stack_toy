@@ -12,6 +12,10 @@ app.use(
   })
 );
 
+app.get("/", (req, res) => {
+  res.send("ok");
+});
+
 app.listen(8000, () => {
   console.log("server listen");
 });
