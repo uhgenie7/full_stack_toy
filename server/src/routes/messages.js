@@ -1,4 +1,5 @@
 import { readDB, writeDB } from "../dbController.js";
+const getMsgs = readDB("messages");
 
 const messagesRoute = [
   {
@@ -6,7 +7,7 @@ const messagesRoute = [
     method: "get",
     route: "/messages",
     handler: (req, res) => {
-      const msgs = readDB("messages");
+      const msgs = getMsgs;
       res.send(msgs);
     },
   },
