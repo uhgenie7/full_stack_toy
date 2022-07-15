@@ -14,6 +14,21 @@ const messagesRoute = [
     },
   },
   {
+    // GET MESSAGE
+    method: "get",
+    route: "/messages/:id",
+    handler: ({ params: { id } }, res) => {
+      try {
+        const msgs = getMsgs();
+        const msg = msgs.find((m) => m.id === id);
+        if (!msg) throw Error("not found");
+        res.send(msg);
+      } catch (err) {
+        res.status(404).send({ error: err });
+      }
+    },
+  },
+  {
     // CREATE MESSAGE
     method: "post",
     route: "/messages",
