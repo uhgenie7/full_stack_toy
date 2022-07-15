@@ -1,4 +1,5 @@
 import { readDB, writeDB } from "../dbController.js";
+import { v4 } from "uuid";
 const getMsgs = readDB("messages");
 
 const messagesRoute = [
@@ -12,18 +13,19 @@ const messagesRoute = [
     },
   },
   {
-    // GET MESSAGE
-    method: "get",
-    route: "/messages/:id",
-    handler: (req, res) => {
-      res.send();
-    },
-  },
-  {
     // CREATE MESSAGE
     method: "post",
     route: "/messages",
     handler: ({ body, params, query }, res) => {
+      const msgs = getMsgs;
+      const newMsgs = {
+        id: v4(),
+        text: body.text,
+        userId: body.userId,
+        timestamp: Date.now(),
+      };
+      msgs.unshift(newMsg);
+      writeDB("messages", msgs);
       res.send();
     },
   },
@@ -32,6 +34,7 @@ const messagesRoute = [
     method: "put",
     route: "/messages/:id",
     handler: (req, res) => {
+      const msgs = getMsgs;
       res.send();
     },
   },
@@ -40,6 +43,7 @@ const messagesRoute = [
     method: "delete",
     route: "/messages/:id",
     handler: (req, res) => {
+      const msgs = getMsgs;
       res.send();
     },
   },
