@@ -1,4 +1,4 @@
-import { readDB, w } from "../dbController";
+import { readDB, writeDB } from "../dbController.js";
 
 const messagesRoute = [
   {

@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import messagesRoute from "./routes/messages.js";
 
 const app = express();
 app.use(express.urlencoded({ extended: true }));
@@ -27,6 +28,10 @@ app.use(
 // app.delete("/messages/:id", (req, res) => {
 //   // ...
 // });
+
+messagesRoute.forEach(({ method, route, handler }) => {
+  app[method](route, handler);
+});
 
 app.listen(8000, () => {
   console.log("server listen");

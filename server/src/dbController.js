@@ -28,5 +28,3 @@ export const writeDB = (target, data) => {
     console.error(err);
   }
 };
-
-Footer;
