@@ -22,7 +22,7 @@ const messagesRoute = [
     // CREATE MESSAGE
     method: "post",
     route: "/messages",
-    handler: (req, res) => {
+    handler: ({ body, params, query }, res) => {
       res.send();
     },
   },
