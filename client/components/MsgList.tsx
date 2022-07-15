@@ -36,6 +36,8 @@ const MsgList = () => {
       }));
 
     setMsgs(settingMsg);
+
+    console.log(JSON.stringify(settingMsg));
   }, []);
 
   const onCreate = (text) => {
