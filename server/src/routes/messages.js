@@ -1,10 +1,13 @@
+import { readDB, w } from "../dbController";
+
 const messagesRoute = [
   {
     // GET MESSAGES
     method: "get",
     route: "/messages",
     handler: (req, res) => {
-      res.send();
+      const msgs = readDB("messages");
+      res.send(msgs);
     },
   },
   {
