@@ -25,9 +25,9 @@ const messagesRoute = [
         userId: body.userId,
         timestamp: Date.now(),
       };
-      msgs.unshift(newMsg);
+      msgs.unshift(newMsgs);
       setMsgs(msgs);
-      res.send();
+      res.send(newMsgs);
     },
   },
   {
