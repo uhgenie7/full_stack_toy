@@ -1,6 +1,7 @@
-import { readDB, writeDB } from "../dbController.js";
 import { v4 } from "uuid";
-const getMsgs = readDB("messages");
+import { readDB, writeDB } from "../dbController.js";
+
+const getMsgs = () => readDB("messages");
 const setMsgs = (data) => writeDB("messages", data);
 
 const messagesRoute = [
@@ -18,6 +19,7 @@ const messagesRoute = [
     method: "get",
     route: "/messages/:id",
     handler: ({ params: { id } }, res) => {
+      id = parseInt(id);
       try {
         const msgs = getMsgs();
         const msg = msgs.find((m) => m.id === id);
@@ -50,6 +52,7 @@ const messagesRoute = [
     method: "put",
     route: "/messages/:id",
     handler: ({ body, parmas: { id } }, res) => {
+      id = parseInt(id);
       try {
         const msgs = getMsgs();
         const targetIndex = msgs.findIndex((msg) => msg.id === id);
@@ -71,6 +74,7 @@ const messagesRoute = [
     method: "delete",
     route: "/messages/:id",
     handler: ({ body, parmas: { id } }, res) => {
+      id = parseInt(id);
       try {
         const msgs = getMsgs();
         const targetIndex = msgs.findIndex((msg) => msg.id === id);
