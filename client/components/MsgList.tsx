@@ -23,7 +23,7 @@ interface Message {
   text: string;
 }
 
-const MsgList = ({ smsgs }) => {
+const MsgList = ({ smsgs, users }) => {
   const {
     query: { userId = "" },
   } = useRouter();
@@ -116,6 +116,7 @@ const MsgList = ({ smsgs }) => {
             isEditing={editingId === x.id}
             onDelete={() => onDelete(x.id)}
             myId={userId}
+            user={users[x.userId]}
             {...x}
           />
         ))}

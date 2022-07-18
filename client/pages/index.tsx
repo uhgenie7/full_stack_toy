@@ -1,17 +1,18 @@
 import MsgList from "../components/MsgList";
 import fetcher from "../fetcher";
 
-const Home = ({ smsgs }) => (
+const Home = ({ smsgs, users }) => (
   <>
     <h1>home</h1>
-    <MsgList smsgs={smsgs} />
+    <MsgList smsgs={smsgs} users={users} />
   </>
 );
 
 export const getServerSideProps = async () => {
   const smsgs = await fetcher("get", "/messages");
+  const users = await fetcher("get", "/users");
   return {
-    props: { smsgs },
+    props: { smsgs, users },
   };
 };
 
