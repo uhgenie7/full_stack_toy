@@ -96,10 +96,6 @@ const MsgList = () => {
   };
 
   useEffect(() => {
-    getMessages();
-  }, []);
-
-  useEffect(() => {
     if (intersecting) getMessages();
   }, [intersecting]);
 
