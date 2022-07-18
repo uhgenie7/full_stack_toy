@@ -66,9 +66,12 @@ const MsgList = () => {
 
   const doneEdit = () => setEditingId(null);
 
-  const onDelete = (id) => {
+  const onDelete = async (id) => {
+    const receivedId = await fetcher("delete", `/messages/${id}`, { userId });
+
     setMsgs((msgs) => {
-      const targetIndex = msgs.findIndex((msg) => msg.id === id);
+      // const targetIndex = msgs.findIndex((msg) => msg.id === id);
+      const targetIndex = msgs.findIndex((msg) => msg.id === receivedId);
       if (targetIndex < 0) return msgs;
       const newMsgs = [...msgs];
       newMsgs.splice(targetIndex, 1);
