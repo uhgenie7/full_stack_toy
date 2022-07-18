@@ -51,7 +51,7 @@ const messagesRoute = [
     // UPDATE MESSAGE
     method: "put",
     route: "/messages/:id",
-    handler: ({ body, parmas: { id } }, res) => {
+    handler: ({ body, params: { id } }, res) => {
       id = parseInt(id);
       try {
         const msgs = getMsgs();
@@ -73,7 +73,7 @@ const messagesRoute = [
     // DELETE MESSAGE
     method: "delete",
     route: "/messages/:id",
-    handler: ({ body, parmas: { id } }, res) => {
+    handler: ({ body, params: { id } }, res) => {
       id = parseInt(id);
       try {
         const msgs = getMsgs();

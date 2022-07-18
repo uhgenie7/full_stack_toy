@@ -45,7 +45,7 @@ const MsgList = () => {
 
   const onUpdate = async (text, id) => {
     const newMsg = await fetcher("put", `/messages/${id}`, { text, userId });
-    if (!newMsg) throw Error("somethin wrong");
+    if (!newMsg) throw Error("something wrong");
     setMsgs((msgs) => {
       const targetIndex = msgs.findIndex((msg) => msg.id === id);
       if (targetIndex < 0) return msgs;
