@@ -23,13 +23,13 @@ interface Message {
   text: string;
 }
 
-const MsgList = () => {
+const MsgList = ({ smsgs }) => {
   const {
     query: { userId = "" },
   } = useRouter();
   // const { userId } = query;
   const UserIds = ["roy", "jay"];
-  const [msgs, setMsgs] = useState<Message[]>([]);
+  const [msgs, setMsgs] = useState<Message[]>(smsgs);
   const [editingId, setEditingId] = useState(null);
   const [hasNext, setHasNext] = useState(true);
   const fetchMoreEl = useRef(null);
