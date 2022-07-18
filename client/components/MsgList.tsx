@@ -31,6 +31,7 @@ const MsgList = () => {
   const UserIds = ["roy", "jay"];
   const [msgs, setMsgs] = useState<Message[]>([]);
   const [editingId, setEditingId] = useState(null);
+  const [hasNext, setHasNext] = useState(true);
   const fetchMoreEl = useRef(null);
   const intersecting = useInfiniteScroll(fetchMoreEl);
 
@@ -92,11 +93,15 @@ const MsgList = () => {
       params: { cursor: msgs[msgs.length - 1]?.id || "" },
     });
 
+    if (newMsgs.length === 0) {
+      setHasNext(false);
+      return;
+    }
     setMsgs((msgs) => [...msgs, ...newMsgs]);
   };
 
   useEffect(() => {
-    if (intersecting) getMessages();
+    if (intersecting && hasNext) getMessages();
   }, [intersecting]);
 
   return (
