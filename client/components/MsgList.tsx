@@ -63,19 +63,13 @@ const MsgList = () => {
     doneEdit();
   };
 
-  useEffect(async () => {
-    // const settingMsg = Array(50)
-    //   .fill(0)
-    //   .map((_, i) => ({
-    //     id: 50 - i,
-    //     userId: getRandomUserId(),
-    //     timestamp: 1234567890123 + (50 - i) * 1000 * 60,
-    //     text: `${50 - i} mock text`,
-    //   }));
-    // setMsgs(settingMsg);
-    // console.log(JSON.stringify(settingMsg));
+  const getMessages = async () => {
     const msgs = await fetcher("get", "/messages");
     setMsgs(msgs);
+  };
+
+  useEffect(() => {
+    getMessages();
   }, []);
 
   return (
