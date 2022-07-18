@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import MsgInput from "./MsgInput";
 
 import MsgItem from "./MsgItem";
+import fetcher from "../fetcher";
 
 // const msgs = [
 //   {
@@ -24,21 +25,6 @@ const MsgList = () => {
   const [msgs, setMsgs] = useState<Message[]>([]);
   const [editingId, setEditingId] = useState(null);
   const getRandomUserId = (): string => UserIds[Math.round(Math.random())];
-
-  useEffect(() => {
-    const settingMsg = Array(50)
-      .fill(0)
-      .map((_, i) => ({
-        id: 50 - i,
-        userId: getRandomUserId(),
-        timestamp: 1234567890123 + (50 - i) * 1000 * 60,
-        text: `${50 - i} mock text`,
-      }));
-
-    setMsgs(settingMsg);
-
-    console.log(JSON.stringify(settingMsg));
-  }, []);
 
   const onCreate = (text) => {
     const newMsg = {
@@ -76,6 +62,21 @@ const MsgList = () => {
     });
     doneEdit();
   };
+
+  useEffect(async () => {
+    // const settingMsg = Array(50)
+    //   .fill(0)
+    //   .map((_, i) => ({
+    //     id: 50 - i,
+    //     userId: getRandomUserId(),
+    //     timestamp: 1234567890123 + (50 - i) * 1000 * 60,
+    //     text: `${50 - i} mock text`,
+    //   }));
+    // setMsgs(settingMsg);
+    // console.log(JSON.stringify(settingMsg));
+    const msgs = await fetcher("get", "/messages");
+    setMsgs(msgs);
+  }, []);
 
   return (
     <>
