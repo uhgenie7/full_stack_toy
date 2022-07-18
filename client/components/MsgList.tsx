@@ -89,6 +89,7 @@ const MsgList = () => {
             startEdit={() => setEditingId(x.id)}
             isEditing={editingId === x.id}
             onDelete={() => onDelete(x.id)}
+            myId={userId}
             {...x}
           />
         ))}
