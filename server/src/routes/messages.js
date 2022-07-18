@@ -11,7 +11,7 @@ const messagesRoute = [
     route: "/messages",
     handler: ({ query: { cursor = "" } }, res) => {
       const msgs = getMsgs();
-      const fromIndex = msgs.findIndex((msg) => msg.ind === cursor) + 1;
+      const fromIndex = msgs.findIndex((msg) => msg.id === cursor) + 1;
       res.send(msgs.slice(fromIndex, fromIndex + 15));
     },
   },
