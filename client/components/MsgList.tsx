@@ -15,7 +15,7 @@ import fetcher from "../fetcher";
 // ];
 
 interface Message {
-  id: number;
+  id: string;
   userId: string;
   timestamp: number;
   text: string;

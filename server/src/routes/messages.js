@@ -19,7 +19,6 @@ const messagesRoute = [
     method: "get",
     route: "/messages/:id",
     handler: ({ params: { id } }, res) => {
-      id = parseInt(id);
       try {
         const msgs = getMsgs();
         const msg = msgs.find((m) => m.id === id);
@@ -34,17 +33,22 @@ const messagesRoute = [
     // CREATE MESSAGE
     method: "post",
     route: "/messages",
-    handler: ({ body, params, query }, res) => {
-      const msgs = getMsgs();
-      const newMsgs = {
-        id: v4(),
-        text: body.text,
-        userId: body.userId,
-        timestamp: Date.now(),
-      };
-      msgs.unshift(newMsgs);
-      setMsgs(msgs);
-      res.send(newMsgs);
+    handler: ({ body }, res) => {
+      try {
+        if (!body.userId) throw Error("no userId");
+        const msgs = getMsgs();
+        const newMsg = {
+          id: v4(),
+          text: body.text,
+          userId: body.userId,
+          timestamp: Date.now(),
+        };
+        msgs.unshift(newMsg);
+        setMsgs(msgs);
+        res.send(newMsg);
+      } catch (err) {
+        res.status(500).send({ error: err });
+      }
     },
   },
   {
@@ -52,7 +56,6 @@ const messagesRoute = [
     method: "put",
     route: "/messages/:id",
     handler: ({ body, params: { id } }, res) => {
-      id = parseInt(id);
       try {
         const msgs = getMsgs();
         const targetIndex = msgs.findIndex((msg) => msg.id === id);
@@ -74,7 +77,6 @@ const messagesRoute = [
     method: "delete",
     route: "/messages/:id",
     handler: ({ params: { id }, query: { userId } }, res) => {
-      id = parseInt(id);
       try {
         const msgs = getMsgs();
         const targetIndex = msgs.findIndex((msg) => msg.id === id);
