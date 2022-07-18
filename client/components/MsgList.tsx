@@ -5,6 +5,8 @@ import MsgInput from "./MsgInput";
 import MsgItem from "./MsgItem";
 import fetcher from "../fetcher";
 
+import useInfiniteScroll from "../hooks/useInfiniteScroll";
+
 // const msgs = [
 //   {
 //     id: 1,
