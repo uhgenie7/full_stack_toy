@@ -23,7 +23,7 @@ interface Message {
 
 const MsgList = () => {
   const {
-    query: { userId },
+    query: { userId = "" },
   } = useRouter();
   // const { userId } = query;
   const UserIds = ["roy", "jay"];
