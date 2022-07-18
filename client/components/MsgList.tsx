@@ -88,13 +88,20 @@ const MsgList = () => {
   };
 
   const getMessages = async () => {
-    const msgs = await fetcher("get", "/messages");
-    setMsgs(msgs);
+    const newMsgs = await fetcher("get", "/messages", {
+      params: { cursor: msgs[msgs.length - 1]?.id || "" },
+    });
+
+    setMsgs((msgs) => [...msgs, ...newMsgs]);
   };
 
   useEffect(() => {
     getMessages();
   }, []);
+
+  useEffect(() => {
+    if (intersecting) getMessages();
+  }, [intersecting]);
 
   return (
     <>
