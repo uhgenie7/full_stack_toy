@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/router";
 import MsgInput from "./MsgInput";
 
@@ -29,17 +29,12 @@ const MsgList = () => {
   const UserIds = ["roy", "jay"];
   const [msgs, setMsgs] = useState<Message[]>([]);
   const [editingId, setEditingId] = useState(null);
-  const getRandomUserId = (): string => UserIds[Math.round(Math.random())];
+  const fetchMoreEl = useRef(null);
+  const intersecting = useInfiniteScroll(fetchMoreEl);
 
   const onCreate = async (text) => {
     const newMsg = await fetcher("post", "/messages", { text, userId });
     if (!newMsg) throw Error("somethin wrong");
-    // const newMsg = {
-    //   id: msgs.length + 1,
-    //   userId: getRandomUserId(),
-    //   timestamp: Date.now(),
-    //   text: `${msgs.length + 1} ${text}`,
-    // };
     setMsgs((msgs) => [newMsg, ...msgs]);
   };
 
