@@ -22,8 +22,10 @@ interface Message {
 }
 
 const MsgList = () => {
-  const { query } = useRouter();
-  const { userId } = query;
+  const {
+    query: { userId },
+  } = useRouter();
+  // const { userId } = query;
   const UserIds = ["roy", "jay"];
   const [msgs, setMsgs] = useState<Message[]>([]);
   const [editingId, setEditingId] = useState(null);
