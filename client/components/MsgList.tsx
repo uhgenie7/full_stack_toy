@@ -81,7 +81,7 @@ const MsgList = () => {
 
     setMsgs((msgs) => {
       // const targetIndex = msgs.findIndex((msg) => msg.id === id);
-      const targetIndex = msgs.findIndex((msg) => msg.id === receivedId);
+      const targetIndex = msgs.findIndex((msg) => msg.id === receivedId + "");
       if (targetIndex < 0) return msgs;
       const newMsgs = [...msgs];
       newMsgs.splice(targetIndex, 1);
