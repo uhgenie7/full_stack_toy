@@ -67,7 +67,17 @@ const MsgList = () => {
   const doneEdit = () => setEditingId(null);
 
   const onDelete = async (id) => {
-    const receivedId = await fetcher("delete", `/messages/${id}`, { userId });
+    // Error
+    // const receivedId = await fetcher("delete", `/messages/${id}`, { userId });
+    // Success
+    const receivedId = await fetcher("delete", `/messages/${id}`, {
+      params: { userId },
+    });
+    // 또는
+    // const receivedId = await fetcher(
+    //   "delete",
+    //   `/messages/${id}?userId=${userId}`
+    // );
 
     setMsgs((msgs) => {
       // const targetIndex = msgs.findIndex((msg) => msg.id === id);
