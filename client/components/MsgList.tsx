@@ -33,6 +33,7 @@ const MsgList = () => {
 
   const onCreate = async (text) => {
     const newMsg = await fetcher("post", "/messages", { text, userId });
+    if (!newMsg) throw Error("somethin wrong");
     // const newMsg = {
     //   id: msgs.length + 1,
     //   userId: getRandomUserId(),
@@ -42,15 +43,22 @@ const MsgList = () => {
     setMsgs((msgs) => [newMsg, ...msgs]);
   };
 
-  const onUpdate = (text, id) => {
+  const onUpdate = async (text, id) => {
+    const newMsg = await fetcher("put", `/messages/${id}`, { text, userId });
+    if (!newMsg) throw Error("somethin wrong");
     setMsgs((msgs) => {
       const targetIndex = msgs.findIndex((msg) => msg.id === id);
       if (targetIndex < 0) return msgs;
       const newMsgs = [...msgs];
-      newMsgs.splice(targetIndex, 1, {
-        ...msgs[targetIndex],
-        text,
-      });
+      newMsgs.splice(
+        targetIndex,
+        1,
+        newMsg
+        //   {
+        //   ...msgs[targetIndex],
+        //   text,
+        // }
+      );
       return newMsgs;
     });
     doneEdit();
