@@ -1,8 +1,8 @@
 import express from "express";
 import { ApolloServer } from "apollo-server-express";
-// import cors from "cors";
-import messagesRoute from "./routes/messages.js";
-import usersRoute from "./routes/users.js";
+import resolvers from "./resolvers/index.js";
+import schema from "./schema/index.js";
+import { readDB } from "./dbController.js";
 
 // app.use(express.urlencoded({ extended: true }));
 // app.use(express.json());
@@ -19,8 +19,8 @@ const server = new ApolloServer({
   context: {
     // 참조할 데이터
     moddels: {
-      messages: "",
-      users: "",
+      messages: readDB("messages"),
+      users: readDB("users"),
     },
   },
 });
