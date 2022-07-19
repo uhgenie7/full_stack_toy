@@ -4,21 +4,12 @@ import resolvers from "./resolvers/index.js";
 import schema from "./schema/index.js";
 import { readDB } from "./dbController.js";
 
-// app.use(express.urlencoded({ extended: true }));
-// app.use(express.json());
-// app.use(
-//   cors({
-//     origin: "http://localhost:3000",
-//     credentials: true,
-//   })
-// );
-
 const server = new ApolloServer({
   typeDefs: schema,
   resolvers,
   context: {
     // 참조할 데이터
-    moddels: {
+    db: {
       messages: readDB("messages"),
       users: readDB("users"),
     },
