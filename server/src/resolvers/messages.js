@@ -18,7 +18,19 @@ const messageResolver = {
     },
   },
   Mutation: {
-    createMessage: () => {},
+    createMessage: (parent, { text, userId }, { db }) => {
+      const newMsg = {
+        id: v4(),
+        text: text,
+        userId: userId,
+        timestamp: Date.now(),
+      };
+      db.messages.unshift(newMsg);
+      //   msgs.unshift(newMsg);
+      setMsgs(db.messages);
+      //   res.send(newMsg);
+      return newMsg;
+    },
     updateMessage: () => {},
     deleteMessage: () => {},
   },
