@@ -8,7 +8,7 @@
 - [x] 섹션 1. Client - 기본기능 구현
 - [x] 섹션 2. Server - REST API
 - [x] 섹션 3. Client - REST API 통신
-- [ ] 섹션 4. Server - GraphQL
+- [x] 섹션 4. Server - GraphQL
 - [ ] 섹션 5. Client - GraphQL 통신
 - [ ] 섹션 6. Client - GraphQL 무한스크롤
 - [ ] 섹션 7. 기타 library 소개
