@@ -9,7 +9,7 @@ const messageSchema = gql`
   }
 
   extend type Query {
-    messages(cursor: ID): [Message!]! #getMessages
+    messages: [Message!]! #getMessages
     message(id: ID!): Message! #getMessage
   }
 
