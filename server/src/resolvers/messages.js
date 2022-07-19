@@ -9,10 +9,13 @@ context: 로그인한 사용자. DB Access 등의 중요한 정보들
 
 const messageResolver = {
   Query: {
-    messages: (obj, args, context) => {
+    messages: (parent, args, { db }) => {
       // console.log({ obj, args, context });
+      return db.messages;
     },
-    message: () => {},
+    message: (parent, { id = "" }, { db }) => {
+      return db.messages.find((msg) => msg.id === id);
+    },
   },
   Mutation: {
     createMessage: () => {},
