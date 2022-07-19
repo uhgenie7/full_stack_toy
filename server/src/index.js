@@ -30,7 +30,10 @@ await server.start();
 server.applyMiddleware({
   app,
   path: "/graphql",
-  cors: { origin: "http://localhost:3000", credentials: true },
+  cors: {
+    origin: ["http://localhost:3000", "https://studio.apollographql.com"],
+    credentials: true,
+  },
 });
 
 await app.listen({ port: 8000 });
