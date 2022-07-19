@@ -1,9 +1,17 @@
 import { v4 } from "uuid";
 import { writeDB } from "../dbController.js";
 
+/* 
+parent: parent 객체. 거의 사용X
+args: Query에 필요한 필드에 제공되는 인수(parameter)
+context: 로그인한 사용자. DB Access 등의 중요한 정보들
+*/
+
 const messageResolver = {
   Query: {
-    messages: () => {},
+    messages: (obj, args, context) => {
+      // console.log({ obj, args, context });
+    },
     message: () => {},
   },
   Mutation: {
