@@ -1,20 +1,12 @@
 import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/router";
+import { useQuery } from "@tanstack/react-query";
 import MsgInput from "./MsgInput";
-
 import MsgItem from "./MsgItem";
-// import fetcher from "../fetcher";
+import { fetcher } from "../queryClient";
+import { GET_MESSAGES } from "../graphql/message";
 
-import useInfiniteScroll from "../hooks/useInfiniteScroll";
-
-// const msgs = [
-//   {
-//     id: 1,
-//     userId: getRandomUserId(),
-//     timestamp: 1234567890123,
-//     text: "1 mock text",
-//   },
-// ];
+// import useInfiniteScroll from "../hooks/useInfiniteScroll";
 
 interface Message {
   id: string;
@@ -24,7 +16,6 @@ interface Message {
 }
 
 const MsgList = ({ smsgs, users }) => {
-  return null;
   const {
     query: { userId = "" },
   } = useRouter();
@@ -32,9 +23,9 @@ const MsgList = ({ smsgs, users }) => {
   const UserIds = ["roy", "jay"];
   const [msgs, setMsgs] = useState<Message[]>(smsgs);
   const [editingId, setEditingId] = useState(null);
-  const [hasNext, setHasNext] = useState(true);
-  const fetchMoreEl = useRef(null);
-  const intersecting = useInfiniteScroll(fetchMoreEl);
+  // const [hasNext, setHasNext] = useState(true);
+  // const fetchMoreEl = useRef(null);
+  // const intersecting = useInfiniteScroll(fetchMoreEl);
 
   const onCreate = async (text) => {
     const newMsg = await fetcher("post", "/messages", { text, userId });
@@ -89,6 +80,8 @@ const MsgList = ({ smsgs, users }) => {
     doneEdit();
   };
 
+  const { data, error, isError } = useQuery("MESSAGES", GET_MESSAGES);
+
   const getMessages = async () => {
     const newMsgs = await fetcher("get", "/messages", {
       params: { cursor: msgs[msgs.length - 1]?.id || "" },
@@ -101,9 +94,9 @@ const MsgList = ({ smsgs, users }) => {
     setMsgs((msgs) => [...msgs, ...newMsgs]);
   };
 
-  useEffect(() => {
-    if (intersecting && hasNext) getMessages();
-  }, [intersecting]);
+  // useEffect(() => {
+  //   if (intersecting && hasNext) getMessages();
+  // }, [intersecting]);
 
   return (
     <>
