@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useQuery } from "@tanstack/react-query";
 import MsgInput from "./MsgInput";
 import MsgItem from "./MsgItem";
-import { fetcher } from "../queryClient";
+import { fetcher, QueryKeys } from "../queryClient";
 import { GET_MESSAGES } from "../graphql/message";
 
 // import useInfiniteScroll from "../hooks/useInfiniteScroll";
@@ -80,7 +80,7 @@ const MsgList = ({ smsgs, users }) => {
     doneEdit();
   };
 
-  const { data, error, isError } = useQuery("MESSAGES", GET_MESSAGES);
+  const { data, error, isError } = useQuery(QueryKeys.MESSAGES, GET_MESSAGES);
 
   const getMessages = async () => {
     const newMsgs = await fetcher("get", "/messages", {
