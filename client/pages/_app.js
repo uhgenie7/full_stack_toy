@@ -1,6 +1,6 @@
 import { useRef } from "react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "./index.scss";
-import { QueryClient, QueryClientProvider } from "react-query";
 
 const App = ({ Component, pageProps }) => {
   const clientRef = useRef(null);
