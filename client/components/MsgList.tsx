@@ -80,7 +80,9 @@ const MsgList = ({ smsgs, users }) => {
     doneEdit();
   };
 
-  const { data, error, isError } = useQuery(QueryKeys.MESSAGES, GET_MESSAGES);
+  const { data, error, isError } = useQuery(QueryKeys.MESSAGES, () =>
+    fetcher(GET_MESSAGES)
+  );
 
   const getMessages = async () => {
     const newMsgs = await fetcher("get", "/messages", {
