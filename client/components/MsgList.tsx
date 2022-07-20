@@ -1,10 +1,10 @@
 import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/router";
-import { useQuery } from "react-query";
+import { useQuery, useMutation } from "react-query";
 import MsgInput from "./MsgInput";
 import MsgItem from "./MsgItem";
 import { fetcher, QueryKeys } from "../queryClient";
-import { GET_MESSAGES } from "../graphql/message";
+import { CREATE_MESSAGE, GET_MESSAGES } from "../graphql/message";
 
 interface Message {
   id: string;
@@ -20,11 +20,18 @@ const MsgList = ({ smsgs, users }) => {
   const [msgs, setMsgs] = useState<Message[]>(smsgs);
   const [editingId, setEditingId] = useState(null);
 
-  const onCreate = async (text) => {
-    const newMsg = await fetcher("post", "/messages", { text, userId });
-    if (!newMsg) throw Error("somethin wrong");
-    setMsgs((msgs) => [newMsg, ...msgs]);
-  };
+  const { mutate: onCreate } = useMutation(
+    ({ text }) => fetcher(CREATE_MESSAGE, { text, userId }),
+    {
+      onSuccess: ({}) => {},
+    }
+  );
+
+  // const onCreate = async (text) => {
+  //   const newMsg = await fetcher("post", "/messages", { text, userId });
+  //   if (!newMsg) throw Error("somethin wrong");
+  //   setMsgs((msgs) => [newMsg, ...msgs]);
+  // };
 
   const onUpdate = async (text, id) => {
     const newMsg = await fetcher("put", `/messages/${id}`, { text, userId });
