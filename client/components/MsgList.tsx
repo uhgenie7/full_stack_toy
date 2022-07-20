@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/router";
-import { useQuery, useMutation } from "react-query";
+import { useQueryClient, useMutation, useQuery } from "react-query";
 import MsgInput from "./MsgInput";
 import MsgItem from "./MsgItem";
 import { fetcher, QueryKeys } from "../queryClient";
