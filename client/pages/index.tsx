@@ -11,11 +11,8 @@ const Home = ({ smsgs, users }) => (
 );
 
 export const getServerSideProps = async () => {
-  const smsgs = await fetcher(GET_MESSAGES);
-  const users = await fetcher(GET_USERS);
-
-  // const { users } = await fetcher(GET_USERS);
-  // const { messages: smsgs } = await fetcher(GET_MESSAGES);
+  const { messages: smsgs } = await fetcher(GET_MESSAGES);
+  const { users } = await fetcher(GET_USERS);
 
   console.log({ smsgs, users });
 
