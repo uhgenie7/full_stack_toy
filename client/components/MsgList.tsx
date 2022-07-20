@@ -33,13 +33,6 @@ const MsgList = ({ smsgs, users }) => {
       },
     }
   );
-
-  // const onCreate = async (text) => {
-  //   const newMsg = await fetcher("post", "/messages", { text, userId });
-  //   if (!newMsg) throw Error("somethin wrong");
-  //   setMsgs((msgs) => [newMsg, ...msgs]);
-  // };
-
   const onUpdate = async (text, id) => {
     const newMsg = await fetcher("put", `/messages/${id}`, { text, userId });
     if (!newMsg) throw Error("something wrong");
@@ -80,7 +73,6 @@ const MsgList = ({ smsgs, users }) => {
     setMsgs(data.messages);
   }, [data?.messages]);
 
-  console.log(data);
   if (isError) {
     console.error(error);
     return null;
