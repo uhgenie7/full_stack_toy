@@ -1,0 +1,17 @@
+{
+  "name": "full_stack_toy",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com-study:uhj1993/full_stack_toy.git",
+  "author": "HyejinUm <uhj1993@naver.com>",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "client": "yarn workspace client start",
+    "server": "yarn workspace server start"
+  }
+}
