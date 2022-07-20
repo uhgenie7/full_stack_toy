@@ -4,7 +4,12 @@ import { useQueryClient, useMutation, useQuery } from "react-query";
 import MsgInput from "./MsgInput";
 import MsgItem from "./MsgItem";
 import { fetcher, QueryKeys } from "../queryClient";
-import { CREATE_MESSAGE, GET_MESSAGES } from "../graphql/message";
+import {
+  CREATE_MESSAGE,
+  UPDATE_MESSAGE,
+  GET_MESSAGES,
+  DELETE_MESSAGE,
+} from "../graphql/message";
 
 interface Message {
   id: string;
@@ -33,35 +38,43 @@ const MsgList = ({ smsgs, users }) => {
       },
     }
   );
-  const onUpdate = async (text, id) => {
-    const newMsg = await fetcher("put", `/messages/${id}`, { text, userId });
-    if (!newMsg) throw Error("something wrong");
-    setMsgs((msgs) => {
-      const targetIndex = msgs.findIndex((msg) => msg.id === id);
-      if (targetIndex < 0) return msgs;
-      const newMsgs = [...msgs];
-      newMsgs.splice(targetIndex, 1, newMsg);
-      return newMsgs;
-    });
-    doneEdit();
-  };
+
+  const { mutate: onUpdate } = useMutation(
+    ({ text, id }) => fetcher(UPDATE_MESSAGE, { text, id, userId }),
+    {
+      onSuccess: ({ updateMessage }) => {
+        client.setQueryData(QueryKeys.MESSAGES, (old) => {
+          const targetIndex = old.messages.findIndex(
+            (msg) => msg.id === updateMessage.id
+          );
+          if (targetIndex < 0) return old;
+          const newMsgs = [...old.messages];
+          newMsgs.splice(targetIndex, 1, updateMessage);
+          return { messages: newMsgs };
+        });
+        doneEdit();
+      },
+    }
+  );
+
+  const { mutate: onDelete } = useMutation(
+    (id) => fetcher(DELETE_MESSAGE, { id, userId }),
+    {
+      onSuccess: ({ deleteMessage: deletedId }) => {
+        client.setQueryData(QueryKeys.MESSAGES, (old) => {
+          const targetIndex = old.messages.findIndex(
+            (msg) => msg.id === deletedId
+          );
+          if (targetIndex < 0) return old;
+          const newMsgs = [...old.messages];
+          newMsgs.splice(targetIndex, 1);
+          return { messages: newMsgs };
+        });
+      },
+    }
+  );
 
   const doneEdit = () => setEditingId(null);
-
-  const onDelete = async (id) => {
-    const receivedId = await fetcher("delete", `/messages/${id}`, {
-      params: { userId },
-    });
-
-    setMsgs((msgs) => {
-      const targetIndex = msgs.findIndex((msg) => msg.id === receivedId + "");
-      if (targetIndex < 0) return msgs;
-      const newMsgs = [...msgs];
-      newMsgs.splice(targetIndex, 1);
-      return newMsgs;
-    });
-    doneEdit();
-  };
 
   const { data, error, isError } = useQuery(QueryKeys.MESSAGES, () =>
     fetcher(GET_MESSAGES)
