@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/router";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery } from "react-query";
 import MsgInput from "./MsgInput";
 import MsgItem from "./MsgItem";
 import { fetcher, QueryKeys } from "../queryClient";
@@ -16,10 +16,8 @@ interface Message {
 }
 
 const MsgList = ({ smsgs, users }) => {
-  const {
-    query: { userId = "" },
-  } = useRouter();
-  // const { userId } = query;
+  const { query } = useRouter();
+  const userId = query.userId || query.userid || "";
   const UserIds = ["roy", "jay"];
   const [msgs, setMsgs] = useState<Message[]>(smsgs);
   const [editingId, setEditingId] = useState(null);
@@ -113,17 +111,17 @@ const MsgList = ({ smsgs, users }) => {
         {msgs.map((x) => (
           <MsgItem
             key={x.id}
+            {...x}
             onUpdate={onUpdate}
+            onDelete={() => onDelete(x.id)}
             startEdit={() => setEditingId(x.id)}
             isEditing={editingId === x.id}
-            onDelete={() => onDelete(x.id)}
             myId={userId}
-            user={users[x.userId]}
-            {...x}
+            user={users.find((x) => userId === x.id)}
           />
         ))}
       </ul>
-      <div ref={fetchMoreEl} />
+      {/* <div ref={fetchMoreEl} /> */}
     </>
   );
 };
