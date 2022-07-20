@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import MsgInput from "./MsgInput";
 
 import MsgItem from "./MsgItem";
-import fetcher from "../fetcher";
+// import fetcher from "../fetcher";
 
 import useInfiniteScroll from "../hooks/useInfiniteScroll";
 
@@ -24,6 +24,7 @@ interface Message {
 }
 
 const MsgList = ({ smsgs, users }) => {
+  return null;
   const {
     query: { userId = "" },
   } = useRouter();
