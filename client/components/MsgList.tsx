@@ -74,7 +74,10 @@ const MsgList = ({ smsgs, users }) => {
     fetcher(GET_MESSAGES)
   );
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    console.log("msgs changed");
+    setMsgs(data?.messages || []);
+  }, [data?.messages]);
 
   console.log(data);
   if (isError) {
