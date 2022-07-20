@@ -75,8 +75,9 @@ const MsgList = ({ smsgs, users }) => {
   );
 
   useEffect(() => {
+    if (!data?.messages) return;
     console.log("msgs changed");
-    setMsgs(data?.messages || []);
+    setMsgs(data.messages);
   }, [data?.messages]);
 
   console.log(data);
