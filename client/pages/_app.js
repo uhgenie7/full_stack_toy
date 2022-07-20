@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import "./index.scss";
+import { Hydrate } from "react-query/hydration";
 
 const App = ({ Component, pageProps }) => {
   const clientRef = useRef(null);
@@ -17,7 +18,9 @@ const App = ({ Component, pageProps }) => {
   };
   return (
     <QueryClientProvider client={getClient()}>
-      <Component {...pageProps} />
+      <Hydrate state={pageProps.dehydratedState}>
+        <Component {...pageProps} />
+      </Hydrate>
     </QueryClientProvider>
   );
 };

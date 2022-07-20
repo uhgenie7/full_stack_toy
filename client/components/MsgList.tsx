@@ -74,6 +74,8 @@ const MsgList = ({ smsgs, users }) => {
     fetcher(GET_MESSAGES)
   );
 
+  useEffect(() => {}, []);
+
   console.log(data);
   if (isError) {
     console.error(error);
