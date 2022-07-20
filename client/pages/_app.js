@@ -1,10 +1,15 @@
+import { useRef } from "react";
 import "./index.scss";
 import { QueryClient, QueryClientProvider } from "react-query";
 
 const App = ({ Component, pageProps }) => {
-  const QueryClient = new QueryClient()
+  const clientRef = useRef(null);
+  const getClient = () => {
+    if (!clientRef.current) clientRef.current = new QueryClient();
+    return clientRef.current;
+  };
   return (
-    <QueryClientProvider client={}>
+    <QueryClientProvider client={getClient()}>
       <Component {...pageProps} />
     </QueryClientProvider>
   );
