@@ -84,6 +84,12 @@ const MsgList = ({ smsgs, users }) => {
     fetcher(GET_MESSAGES)
   );
 
+  console.log(data);
+  if (isError) {
+    console.error(error);
+    return null;
+  }
+
   const getMessages = async () => {
     const newMsgs = await fetcher("get", "/messages", {
       params: { cursor: msgs[msgs.length - 1]?.id || "" },
