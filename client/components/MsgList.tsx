@@ -14,6 +14,7 @@ interface Message {
 }
 
 const MsgList = ({ smsgs, users }) => {
+  const client = useQueryClient();
   const { query } = useRouter();
   const userId = query.userId || query.userid || "";
   const UserIds = ["roy", "jay"];
@@ -23,7 +24,13 @@ const MsgList = ({ smsgs, users }) => {
   const { mutate: onCreate } = useMutation(
     ({ text }) => fetcher(CREATE_MESSAGE, { text, userId }),
     {
-      onSuccess: ({}) => {},
+      onSuccess: ({ createMessage }) => {
+        client.setQueryData(QueryKeys.MESSAGES, (old) => {
+          return {
+            messages: [createMessage, ...old.messages],
+          };
+        });
+      },
     }
   );
 
