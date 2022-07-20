@@ -6,8 +6,6 @@ import MsgItem from "./MsgItem";
 import { fetcher, QueryKeys } from "../queryClient";
 import { GET_MESSAGES } from "../graphql/message";
 
-// import useInfiniteScroll from "../hooks/useInfiniteScroll";
-
 interface Message {
   id: string;
   userId: string;
@@ -21,9 +19,6 @@ const MsgList = ({ smsgs, users }) => {
   const UserIds = ["roy", "jay"];
   const [msgs, setMsgs] = useState<Message[]>(smsgs);
   const [editingId, setEditingId] = useState(null);
-  // const [hasNext, setHasNext] = useState(true);
-  // const fetchMoreEl = useRef(null);
-  // const intersecting = useInfiniteScroll(fetchMoreEl);
 
   const onCreate = async (text) => {
     const newMsg = await fetcher("post", "/messages", { text, userId });
@@ -38,15 +33,7 @@ const MsgList = ({ smsgs, users }) => {
       const targetIndex = msgs.findIndex((msg) => msg.id === id);
       if (targetIndex < 0) return msgs;
       const newMsgs = [...msgs];
-      newMsgs.splice(
-        targetIndex,
-        1,
-        newMsg
-        //   {
-        //   ...msgs[targetIndex],
-        //   text,
-        // }
-      );
+      newMsgs.splice(targetIndex, 1, newMsg);
       return newMsgs;
     });
     doneEdit();
@@ -55,20 +42,11 @@ const MsgList = ({ smsgs, users }) => {
   const doneEdit = () => setEditingId(null);
 
   const onDelete = async (id) => {
-    // Error
-    // const receivedId = await fetcher("delete", `/messages/${id}`, { userId });
-    // Success
     const receivedId = await fetcher("delete", `/messages/${id}`, {
       params: { userId },
     });
-    // 또는
-    // const receivedId = await fetcher(
-    //   "delete",
-    //   `/messages/${id}?userId=${userId}`
-    // );
 
     setMsgs((msgs) => {
-      // const targetIndex = msgs.findIndex((msg) => msg.id === id);
       const targetIndex = msgs.findIndex((msg) => msg.id === receivedId + "");
       if (targetIndex < 0) return msgs;
       const newMsgs = [...msgs];
@@ -88,22 +66,6 @@ const MsgList = ({ smsgs, users }) => {
     return null;
   }
 
-  const getMessages = async () => {
-    const newMsgs = await fetcher("get", "/messages", {
-      params: { cursor: msgs[msgs.length - 1]?.id || "" },
-    });
-
-    if (newMsgs.length === 0) {
-      setHasNext(false);
-      return;
-    }
-    setMsgs((msgs) => [...msgs, ...newMsgs]);
-  };
-
-  // useEffect(() => {
-  //   if (intersecting && hasNext) getMessages();
-  // }, [intersecting]);
-
   return (
     <>
       {userId && <MsgInput mutate={onCreate} />}
@@ -121,7 +83,6 @@ const MsgList = ({ smsgs, users }) => {
           />
         ))}
       </ul>
-      {/* <div ref={fetchMoreEl} /> */}
     </>
   );
 };
