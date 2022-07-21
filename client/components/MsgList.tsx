@@ -62,6 +62,7 @@ const MsgList = ({ smsgs, users }) => {
     ({ text, id }) => fetcher(UPDATE_MESSAGE, { text, id, userId }),
     {
       onSuccess: ({ updateMessage }) => {
+        doneEdit();
         client.setQueryData(QueryKeys.MESSAGES, (old) => {
           // pages: [{messages:[15]}, {messages:[1, 2, ... **7**, 8, ...15]}, {messages:[10]}]
 
@@ -75,7 +76,6 @@ const MsgList = ({ smsgs, users }) => {
           newPages[pageIndex].messages.splice(msgIndex, 1, updateMessage);
           return { pagePara: old.pageParam, pages: newPages };
         });
-        doneEdit();
       },
     }
   );
