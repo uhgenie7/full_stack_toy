@@ -32,9 +32,14 @@ const MsgList = ({ smsgs, users }) => {
     ({ text }) => fetcher(CREATE_MESSAGE, { text, userId }),
     {
       onSuccess: ({ createMessage }) => {
+        // pages: [{messages:[createMessage, 15]}, {messages:[15]}, {messages:[15]}]
         client.setQueryData(QueryKeys.MESSAGES, (old) => {
           return {
-            messages: [createMessage, ...old.messages],
+            pageParam: old.pageParam,
+            pages: [
+              { messages: [createMessage, ...old.pages[0].messages] },
+              ...old.pages.slice(1),
+            ],
           };
         });
       },
@@ -62,6 +67,7 @@ const MsgList = ({ smsgs, users }) => {
   const { mutate: onDelete } = useMutation(
     (id) => fetcher(DELETE_MESSAGE, { id, userId }),
     {
+      // pages: [{messages:[14]}, {messages:[14]}, {messages:[10]}]
       onSuccess: ({ deleteMessage: deletedId }) => {
         client.setQueryData(QueryKeys.MESSAGES, (old) => {
           const targetIndex = old.messages.findIndex(
