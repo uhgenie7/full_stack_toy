@@ -86,13 +86,15 @@ const MsgList = ({ smsgs, users }) => {
       // pages: [{messages:[14]}, {messages:[14]}, {messages:[10]}]
       onSuccess: ({ deleteMessage: deletedId }) => {
         client.setQueryData(QueryKeys.MESSAGES, (old) => {
-          const targetIndex = old.messages.findIndex(
-            (msg) => msg.id === deletedId
+          const { pageIndex, msgIndex } = findTargetMsgIndex(
+            old.pages,
+            deletedId
           );
-          if (targetIndex < 0) return old;
-          const newMsgs = [...old.messages];
-          newMsgs.splice(targetIndex, 1);
-          return { messages: newMsgs };
+          if (pageIndex < 0 || msgIndex < 0) return old;
+          const newPages = [...old.pages];
+          newPages[pageIndex] = { messages: [...newPages[pageIndex].messages] };
+          newPages[pageIndex].messages.splice(msgIndex, 1);
+          return { pagePara: old.pageParam, messages: newPages };
         });
       },
     }
