@@ -23,8 +23,7 @@ const MsgList = ({ smsgs, users }) => {
   const client = useQueryClient();
   const { query } = useRouter();
   const userId = query.userId || query.userid || "";
-  const UserIds = ["roy", "jay"];
-  const [msgs, setMsgs] = useState<Message[]>(smsgs);
+  const [msgs, setMsgs] = useState([{ messages: smsgs }]);
   const [editingId, setEditingId] = useState(null);
   const fetchMoreEl = useRef(null);
   const intersecting = useInfiniteScroll(fetchMoreEl);
@@ -93,11 +92,7 @@ const MsgList = ({ smsgs, users }) => {
 
   useEffect(() => {
     if (!data?.pages) return;
-    console.log("msgs changed");
-    // const data.pages = [{messages: [...]}, {messages: [...]}] => [...]
-    const mergedMsgs = data.pages.flatMap((d) => d.messages);
-    console.log(mergedMsgs);
-    setMsgs(mergedMsgs);
+    setMsgs(data.pages);
   }, [data?.pages]);
 
   if (isError) {
@@ -113,18 +108,19 @@ const MsgList = ({ smsgs, users }) => {
     <>
       {userId && <MsgInput mutate={onCreate} />}
       <ul className="messages">
-        {msgs.map((x) => (
-          <MsgItem
-            key={x.id}
-            {...x}
-            onUpdate={onUpdate}
-            onDelete={() => onDelete(x.id)}
-            startEdit={() => setEditingId(x.id)}
-            isEditing={editingId === x.id}
-            myId={userId}
-            user={users.find((x) => userId === x.id)}
-          />
-        ))}
+        {msgs.map(({ messages }, pageIndex) =>
+          messages.map((x) => (
+            <MsgItem
+              key={pageIndex + x.id}
+              {...x}
+              onUpdate={onUpdate}
+              onDelete={() => onDelete(x.id)}
+              startEdit={() => setEditingId(x.id)}
+              isEditing={editingId === x.id}
+              myId={userId}
+            />
+          ))
+        )}
       </ul>
       <div ref={fetchMoreEl} />
     </>
