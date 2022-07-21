@@ -76,7 +76,7 @@ const MsgList = ({ smsgs, users }) => {
 
   const doneEdit = () => setEditingId(null);
 
-  const { data, error, isError } = useQuery(QueryKeys.MESSAGES, () =>
+  const { data, error, isError } = useInfiniteQuery(QueryKeys.MESSAGES, () =>
     fetcher(GET_MESSAGES)
   );
 
