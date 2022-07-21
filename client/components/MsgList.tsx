@@ -19,6 +19,17 @@ interface Message {
   text: string;
 }
 
+const findTargetMsgIndex = (pages, id) => {
+  const pageIndex = data?.pages.findIndex(({ messages }) => {
+    const msgIndex = messages.findIndex((msg) => msg.id === id);
+    if (msgIndex > -1) {
+      return true;
+    }
+    return false;
+  });
+  return { pageIndex, msgIndex };
+};
+
 const MsgList = ({ smsgs, users }) => {
   const client = useQueryClient();
   const { query } = useRouter();
@@ -49,6 +60,7 @@ const MsgList = ({ smsgs, users }) => {
   const { mutate: onUpdate } = useMutation(
     ({ text, id }) => fetcher(UPDATE_MESSAGE, { text, id, userId }),
     {
+      // pages: [{messages:[15]}, {messages:[1, 2, ... **7**, 8, ...15]}, {messages:[10]}]
       onSuccess: ({ updateMessage }) => {
         client.setQueryData(QueryKeys.MESSAGES, (old) => {
           const targetIndex = old.messages.findIndex(
