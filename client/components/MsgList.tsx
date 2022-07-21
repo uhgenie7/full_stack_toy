@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/router";
-import { useQueryClient, useMutation, useQuery } from "react-query";
+import { useQueryClient, useMutation, useInfiniteQuery } from "react-query";
 import MsgInput from "./MsgInput";
 import MsgItem from "./MsgItem";
 import { fetcher, QueryKeys } from "../queryClient";
@@ -76,8 +76,12 @@ const MsgList = ({ smsgs, users }) => {
 
   const doneEdit = () => setEditingId(null);
 
-  const { data, error, isError } = useInfiniteQuery(QueryKeys.MESSAGES, () =>
-    fetcher(GET_MESSAGES)
+  const { data, error, isError } = useInfiniteQuery(
+    QueryKeys.MESSAGES,
+    (res) => {
+      console.log(res);
+      fetcher(GET_MESSAGES);
+    }
   );
 
   useEffect(() => {
