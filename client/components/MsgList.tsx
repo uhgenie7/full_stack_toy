@@ -92,10 +92,13 @@ const MsgList = ({ smsgs, users }) => {
   );
 
   useEffect(() => {
-    if (!data?.messages) return;
+    if (!data?.pages) return;
     console.log("msgs changed");
-    setMsgs(data.messages);
-  }, [data?.messages]);
+    // const data.pages = [{messages: [...]}, {messages: [...]}] => [...]
+    const mergedMsgs = data.pages.flatMap((d) => d.messages);
+    console.log(mergedMsgs);
+    setMsgs(mergedMsgs);
+  }, [data?.pages]);
 
   if (isError) {
     console.error(error);
@@ -105,8 +108,6 @@ const MsgList = ({ smsgs, users }) => {
   useEffect(() => {
     if (intersecting && hasNextPage) fetchNextPage();
   }, [intersecting, hasNextPage]);
-
-  console.log(data);
 
   return (
     <>
