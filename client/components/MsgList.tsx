@@ -78,9 +78,15 @@ const MsgList = ({ smsgs, users }) => {
 
   const { data, error, isError } = useInfiniteQuery(
     QueryKeys.MESSAGES,
-    (res) => {
-      console.log(res);
-      fetcher(GET_MESSAGES);
+    ({ pageParam = "" }) => {
+      return fetcher(GET_MESSAGES, { cursor: pageParam });
+    },
+    {
+      getNextPageParam: (res) => {
+        //getNextPageParam: 다음 요청이 있을 시 리턴한 pageParam이 담길 것
+        console.log(res);
+        return "";
+      },
     }
   );
 
