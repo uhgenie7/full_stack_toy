@@ -79,19 +79,20 @@ const MsgList = ({ smsgs, users }) => {
 
   const doneEdit = () => setEditingId(null);
 
-  const { data, error, isError } = useInfiniteQuery(
-    QueryKeys.MESSAGES,
-    ({ pageParam = "" }) => {
-      return fetcher(GET_MESSAGES, { cursor: pageParam });
-    },
-    {
-      getNextPageParam: (res) => {
-        //getNextPageParam: 다음 요청이 있을 시 리턴한 pageParam이 담길 것
-        console.log(res);
-        return "";
+  const { data, error, isError, fetchNextPage, fetchPreviousPage } =
+    useInfiniteQuery(
+      QueryKeys.MESSAGES,
+      ({ pageParam = "" }) => {
+        return fetcher(GET_MESSAGES, { cursor: pageParam });
       },
-    }
-  );
+      {
+        getNextPageParam: (res) => {
+          //getNextPageParam: 다음 요청이 있을 시 리턴한 pageParam이 담길 것
+          console.log(res);
+          return "";
+        },
+      }
+    );
 
   useEffect(() => {
     if (!data?.messages) return;
