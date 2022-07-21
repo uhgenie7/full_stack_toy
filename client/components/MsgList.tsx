@@ -83,10 +83,10 @@ const MsgList = ({ smsgs, users }) => {
     QueryKeys.MESSAGES,
     ({ pageParam = "" }) => fetcher(GET_MESSAGES, { cursor: pageParam }),
     {
-      getNextPageParam: (res) => {
+      getNextPageParam: ({ messages }) => {
         //getNextPageParam: 다음 요청이 있을 시 리턴한 pageParam이 담길 것
-        console.log(res);
-        return "";
+        // console.log(res);
+        return messages?.[messages.length - 1]?.id;
       },
     }
   );
