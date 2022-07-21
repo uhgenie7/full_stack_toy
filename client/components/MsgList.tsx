@@ -10,6 +10,7 @@ import {
   GET_MESSAGES,
   DELETE_MESSAGE,
 } from "../graphql/message";
+import useInfiniteScroll from "../hooks/useInfiniteScroll";
 
 interface Message {
   id: string;
@@ -25,6 +26,8 @@ const MsgList = ({ smsgs, users }) => {
   const UserIds = ["roy", "jay"];
   const [msgs, setMsgs] = useState<Message[]>(smsgs);
   const [editingId, setEditingId] = useState(null);
+  const fetchMoreEl = useRef(null);
+  const intersecting = useInfiniteScroll(fetchMoreEl);
 
   const { mutate: onCreate } = useMutation(
     ({ text }) => fetcher(CREATE_MESSAGE, { text, userId }),
@@ -118,6 +121,7 @@ const MsgList = ({ smsgs, users }) => {
           />
         ))}
       </ul>
+      <div ref={fetchMoreEl} />
     </>
   );
 };
