@@ -20,8 +20,9 @@ interface Message {
 }
 
 const findTargetMsgIndex = (pages, id) => {
-  const pageIndex = data?.pages.findIndex(({ messages }) => {
-    const msgIndex = messages.findIndex((msg) => msg.id === id);
+  let msgIndex = -1;
+  const pageIndex = pages.findIndex(({ messages }) => {
+    msgIndex = messages.findIndex((msg) => msg.id === id);
     if (msgIndex > -1) {
       return true;
     }
@@ -60,16 +61,19 @@ const MsgList = ({ smsgs, users }) => {
   const { mutate: onUpdate } = useMutation(
     ({ text, id }) => fetcher(UPDATE_MESSAGE, { text, id, userId }),
     {
-      // pages: [{messages:[15]}, {messages:[1, 2, ... **7**, 8, ...15]}, {messages:[10]}]
       onSuccess: ({ updateMessage }) => {
         client.setQueryData(QueryKeys.MESSAGES, (old) => {
-          const targetIndex = old.messages.findIndex(
-            (msg) => msg.id === updateMessage.id
+          // pages: [{messages:[15]}, {messages:[1, 2, ... **7**, 8, ...15]}, {messages:[10]}]
+
+          const { pageIndex, msgIndex } = findTargetMsgIndex(
+            old.pages,
+            updateMessage.id
           );
-          if (targetIndex < 0) return old;
-          const newMsgs = [...old.messages];
-          newMsgs.splice(targetIndex, 1, updateMessage);
-          return { messages: newMsgs };
+          if (pageIndex < 0 || msgIndex < 0) return old;
+          const newPages = [...old.pages];
+          newPages[pageIndex] = { messages: [...newPages[pageIndex].messages] };
+          newPages[pageIndex].messages.splice(msgIndex, 1, updateMessage);
+          return { pagePara: old.pageParam, pages: newPages };
         });
         doneEdit();
       },
