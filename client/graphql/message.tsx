@@ -5,7 +5,6 @@ export const GET_MESSAGES = gql`
     messages(cursor: $cursor) {
       id
       text
-      userId
       timestamp
       user {
         id
