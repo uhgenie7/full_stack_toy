@@ -47,8 +47,8 @@ const messagesRoute = [
           userId: body.userId,
           timestamp: Date.now(),
         };
-        msgs.unshift(newMsg);
-        setMsgs(msgs);
+        db.data.messages.unshift(newMsg);
+        db.write();
         res.send(newMsg);
       } catch (err) {
         res.status(500).send({ error: err });
