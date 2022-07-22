@@ -7,6 +7,10 @@ export const GET_MESSAGES = gql`
       text
       userId
       timestamp
+      user {
+        id
+        nickname
+      }
     }
   }
 `;
