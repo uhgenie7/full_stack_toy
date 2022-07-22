@@ -19,7 +19,10 @@ export const GET_MESSAGE = gql`
     message(id: $id) {
       id
       text
-      userId
+      user {
+        id
+        nickname
+      }
       timestamp
     }
   }
@@ -30,7 +33,10 @@ export const CREATE_MESSAGE = gql`
     createMessage(text: $text, userId: $userId) {
       id
       text
-      userId
+      user {
+        id
+        nickname
+      }
       timestamp
     }
   }
@@ -41,7 +47,10 @@ export const UPDATE_MESSAGE = gql`
     updateMessage(id: $id, text: $text, userId: $userId) {
       id
       text
-      userId
+      user {
+        id
+        nickname
+      }
       timestamp
     }
   }

@@ -1,20 +1,19 @@
-import React from "react";
 import MsgInput from "./MsgInput";
 
 const MsgItem = ({
   id,
   timestamp,
-  text, // 여기까지 기존 객체
+  text,
   onUpdate,
+  onDelete,
   isEditing,
   startEdit,
-  onDelete,
   myId,
   user,
 }) => (
-  <ul className="messages__item">
+  <li className="messages__item">
     <h3>
-      {user?.nickname}
+      {user.nickname}{" "}
       <sub>
         {new Date(timestamp).toLocaleString("ko-KR", {
           year: "numeric",
@@ -26,20 +25,22 @@ const MsgItem = ({
         })}
       </sub>
     </h3>
+
     {isEditing ? (
       <>
-        <MsgInput mutate={onUpdate} id={id} text={text} />
+        <MsgInput mutate={onUpdate} text={text} id={id} />
       </>
     ) : (
       text
     )}
+
     {myId === user.id && (
       <div className="messages__buttons">
         <button onClick={startEdit}>수정</button>
         <button onClick={onDelete}>삭제</button>
       </div>
     )}
-  </ul>
+  </li>
 );
 
 export default MsgItem;

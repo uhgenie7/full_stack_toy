@@ -1,28 +1,21 @@
-import { useEffect, useState, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import { useQueryClient, useMutation, useInfiniteQuery } from "react-query";
-import MsgInput from "./MsgInput";
 import MsgItem from "./MsgItem";
+import MsgInput from "./MsgInput";
 import {
-  fetcher,
   QueryKeys,
+  fetcher,
   findTargetMsgIndex,
   getNewMessages,
 } from "../queryClient";
 import {
+  GET_MESSAGES,
   CREATE_MESSAGE,
   UPDATE_MESSAGE,
-  GET_MESSAGES,
   DELETE_MESSAGE,
 } from "../graphql/message";
 import useInfiniteScroll from "../hooks/useInfiniteScroll";
-
-interface Message {
-  id: string;
-  userId: string;
-  timestamp: number;
-  text: string;
-}
 
 const MsgList = ({ smsgs }) => {
   const client = useQueryClient();
@@ -37,7 +30,6 @@ const MsgList = ({ smsgs }) => {
     ({ text }) => fetcher(CREATE_MESSAGE, { text, userId }),
     {
       onSuccess: ({ createMessage }) => {
-        // pages: [{messages:[createMessage, 15]}, {messages:[15]}, {messages:[15]}]
         client.setQueryData(QueryKeys.MESSAGES, (old) => {
           return {
             pageParam: old.pageParam,
@@ -57,20 +49,14 @@ const MsgList = ({ smsgs }) => {
       onSuccess: ({ updateMessage }) => {
         doneEdit();
         client.setQueryData(QueryKeys.MESSAGES, (old) => {
-          // pages: [{messages:[15]}, {messages:[1, 2, ... **7**, 8, ...15]}, {messages:[10]}]
-
           const { pageIndex, msgIndex } = findTargetMsgIndex(
             old.pages,
             updateMessage.id
           );
           if (pageIndex < 0 || msgIndex < 0) return old;
-          const newPages = getNewMessages(old);
-          newPages.pages[pagaeIndex].messages.splice(
-            msgIndex,
-            1,
-            updateMessage
-          );
-          return newPages;
+          const newMsgs = getNewMessages(old);
+          newMsgs.pages[pageIndex].messages.splice(msgIndex, 1, updateMessage);
+          return newMsgs;
         });
       },
     }
@@ -79,7 +65,6 @@ const MsgList = ({ smsgs }) => {
   const { mutate: onDelete } = useMutation(
     (id) => fetcher(DELETE_MESSAGE, { id, userId }),
     {
-      // pages: [{messages:[14]}, {messages:[14]}, {messages:[10]}]
       onSuccess: ({ deleteMessage: deletedId }) => {
         client.setQueryData(QueryKeys.MESSAGES, (old) => {
           const { pageIndex, msgIndex } = findTargetMsgIndex(
@@ -87,9 +72,10 @@ const MsgList = ({ smsgs }) => {
             deletedId
           );
           if (pageIndex < 0 || msgIndex < 0) return old;
-          const newPages = getNewMessages(old);
-          newPages.pages[pagaeIndex].messages.splice(msgIndex, 1);
-          return newPages;
+
+          const newMsgs = getNewMessages(old);
+          newMsgs.pages[pageIndex].messages.splice(msgIndex, 1);
+          return newMsgs;
         });
       },
     }
@@ -102,8 +88,6 @@ const MsgList = ({ smsgs }) => {
     ({ pageParam = "" }) => fetcher(GET_MESSAGES, { cursor: pageParam }),
     {
       getNextPageParam: ({ messages }) => {
-        //getNextPageParam: 다음 요청이 있을 시 리턴한 pageParam이 담길 것
-        // console.log(res);
         return messages?.[messages.length - 1]?.id;
       },
     }
