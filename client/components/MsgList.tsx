@@ -19,18 +19,6 @@ interface Message {
   text: string;
 }
 
-const findTargetMsgIndex = (pages, id) => {
-  let msgIndex = -1;
-  const pageIndex = pages.findIndex(({ messages }) => {
-    msgIndex = messages.findIndex((msg) => msg.id === id);
-    if (msgIndex > -1) {
-      return true;
-    }
-    return false;
-  });
-  return { pageIndex, msgIndex };
-};
-
 const MsgList = ({ smsgs, users }) => {
   const client = useQueryClient();
   const { query } = useRouter();
