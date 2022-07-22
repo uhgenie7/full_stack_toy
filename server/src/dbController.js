@@ -1,8 +1,6 @@
-// import fs from "fs";
-// import { resolve } from "path";
-
 import { LowSync, JSONFileSync } from "lowdb";
-const adapther = new JSONFileSync("/src/db.json");
-const db = new LowSync(adapther);
+
+const adapter = new JSONFileSync("./src/db.json");
+const db = new LowSync(adapter);
 
 export default db;

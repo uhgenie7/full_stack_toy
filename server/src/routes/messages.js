@@ -69,7 +69,6 @@ const messagesRoute = [
 
         const newMsg = { ...msgs[targetIndex], text: body.text };
         db.data.messages.splice(targetIndex, 1, newMsg);
-        msgs.splice(targetIndex, 1, newMsg);
         db.write();
         res.send(newMsg);
       } catch (err) {
