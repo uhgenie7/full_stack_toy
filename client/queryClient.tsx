@@ -26,5 +26,5 @@ export const findTargetMsgIndex = (pages, id) => {
 
 export const getNewMessages = (old) => ({
   pageParams: old.pageParams,
-  pages: old.pages.mpa(({ messages }) => ({ messages: [...messages] })),
+  pages: old.pages.map(({ messages }) => ({ messages: [...messages] })),
 });

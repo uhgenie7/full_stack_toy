@@ -3,7 +3,12 @@ import { useRouter } from "next/router";
 import { useQueryClient, useMutation, useInfiniteQuery } from "react-query";
 import MsgInput from "./MsgInput";
 import MsgItem from "./MsgItem";
-import { fetcher, QueryKeys } from "../queryClient";
+import {
+  fetcher,
+  QueryKeys,
+  findTargetMsgIndex,
+  getNewMessages,
+} from "../queryClient";
 import {
   CREATE_MESSAGE,
   UPDATE_MESSAGE,
@@ -59,10 +64,13 @@ const MsgList = ({ smsgs, users }) => {
             updateMessage.id
           );
           if (pageIndex < 0 || msgIndex < 0) return old;
-          const newPages = [...old.pages];
-          newPages[pageIndex] = { messages: [...newPages[pageIndex].messages] };
-          newPages[pageIndex].messages.splice(msgIndex, 1, updateMessage);
-          return { pagePara: old.pageParam, pages: newPages };
+          const newPages = getNewMessages(old);
+          newPages.pages[pagaeIndex].messages.splice(
+            msgIndex,
+            1,
+            updateMessage
+          );
+          return newPages;
         });
       },
     }
@@ -79,10 +87,9 @@ const MsgList = ({ smsgs, users }) => {
             deletedId
           );
           if (pageIndex < 0 || msgIndex < 0) return old;
-          const newPages = [...old.pages];
-          newPages[pageIndex] = { messages: [...newPages[pageIndex].messages] };
-          newPages[pageIndex].messages.splice(msgIndex, 1);
-          return { pagePara: old.pageParam, messages: newPages };
+          const newPages = getNewMessages(old);
+          newPages.pages[pagaeIndex].messages.splice(msgIndex, 1);
+          return newPages;
         });
       },
     }
