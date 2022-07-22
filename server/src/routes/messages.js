@@ -1,8 +1,11 @@
 import { v4 } from "uuid";
-import { readDB, writeDB } from "../dbController.js";
+import db from "../dbController.js";
 
-const getMsgs = () => readDB("messages");
-const setMsgs = (data) => writeDB("messages", data);
+const getMsgs = () => {
+  db.read();
+  db.data = db.data || { messages: [] };
+  return db.data.messages;
+};
 
 const messagesRoute = [
   {
