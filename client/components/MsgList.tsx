@@ -24,7 +24,7 @@ interface Message {
   text: string;
 }
 
-const MsgList = ({ smsgs, users }) => {
+const MsgList = ({ smsgs }) => {
   const client = useQueryClient();
   const { query } = useRouter();
   const userId = query.userId || query.userid || "";
